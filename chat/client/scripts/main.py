@@ -1,4 +1,5 @@
-from client import ENTER, REG
+from client import ENTER
+from Reg import REG
 from CHAT import chat
 from PyQt5.QtWidgets import QApplication, QMainWindow
 import sys

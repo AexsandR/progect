@@ -28,8 +28,27 @@ class ENTER(QMainWindow):
     """функция для входа"""
 
     def Enter(self):
-        q = send_from_enter(self)  # подключем класс
-        q.run()
+        global ip
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        if self.email.text() != '' and self.password.text() != '':  # проверка на непустые ли поля ввода
+            try:
+                sock.connect((ip, 4444))  # подключение к сокету
+            except Exception:
+                self.label_3.setText('проверьте подключение')
+            else:
+                stroka = 'вход ' + self.email.text() + ' ' + self.password.text()  # собираем строку где первое слово команнда для мервера 2 наш email 3 пароль
+                sock.send(stroka.encode('utf-8'))  # отпровляем эту строку
+                res = sock.recv(1024)  # принимаем ответ
+                res = res.decode('utf-8')
+                if res == 'нет такого пользователя':
+                    self.label_3.setText(res)
+                else:
+                    """меняем форму"""
+                    sock.close()
+                    self.hide()
+                    Chat.arg(ip, res)
+                    Chat.show()
+        sock.close()
 
     """функция для начало работы класса REG"""
 
@@ -56,27 +75,7 @@ class send_from_enter(
 
     def run(self):
         """создается сокет"""
-        global ip
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        if self.mainwindow.email.text() != '' and self.mainwindow.password.text() != '':  # проверка на непустые ли поля ввода
-            try:
-                sock.connect((ip, 4444))  # подключение к сокету
-            except Exception:
-                self.mainwindow.label_3.setText('проверьте подключение')
-            else:
-                stroka = 'вход ' + self.mainwindow.email.text() + ' ' + self.mainwindow.password.text()  # собираем строку где первое слово команнда для мервера 2 наш email 3 пароль
-                sock.send(stroka.encode('utf-8'))  # отпровляем эту строку
-                res = sock.recv(1024)  # принимаем ответ
-                res = res.decode('utf-8')
-                if res == 'нет такого пользователя':
-                    self.mainwindow.label_3.setText(res)
-                else:
-                    """меняем форму"""
-                    sock.close()
-                    self.mainwindow.hide()
-                    Chat.arg(ip, res)
-                    Chat.show()
-        sock.close()
+
 
 
 
