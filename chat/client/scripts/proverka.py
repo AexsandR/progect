@@ -36,7 +36,7 @@ def check_password(password):
     num = 0
     test = 0
     if len(password) < 9:
-        raise LengthError("LengthError")
+        raise LengthError("пароль должен быть не менее 9 символов")
     for simvol in password:
         if simvol in En_UP or simvol in Ru_UP_WIN:
             UP = 1
@@ -50,14 +50,14 @@ def check_password(password):
             num += 1
             break
     if LOW != 1 or UP != 1:
-        raise LetterError("LetterError")
+        raise LetterError("символы должны быть в разных регистрах")
     if num != 1:
-        raise DigitError("DigitError")
+        raise DigitError("должны быть хотябы одна цифра")
     password = password.lower()
     for simvol in forbidden_combinations:
         if simvol in password:
             test = 1
             break
     if test == 1 or password == "1234жэё!5":
-        raise SequenceError("SequenceError")
+        raise SequenceError("не должно быть 3 последовательных символов")
     return True
