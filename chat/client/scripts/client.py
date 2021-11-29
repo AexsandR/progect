@@ -14,7 +14,7 @@ file = file.readlines()
 if len(file):
     ip = file[0]
 else:
-    ip = ''  # ip принтуется в сервере просто замените для проверки
+    ip = ''  # ip принтуется в сервере!!!!!!!!!!!!!!!!!!!!!!
 
 
 class ENTER(QMainWindow):
@@ -32,7 +32,7 @@ class ENTER(QMainWindow):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         if self.email.text() != '' and self.password.text() != '':  # проверка на непустые ли поля ввода
             try:
-                sock.connect((ip, 4444))  # подключение к сокету
+                sock.connect((ip, 4444))  # подключение к сокету сервера
             except Exception:
                 self.label_3.setText('проверьте подключение')
             else:
@@ -57,7 +57,7 @@ class ENTER(QMainWindow):
         self.hide()
         reg.Arg(ip,Chat)
         reg.show()
-
+    """функция для замены ip"""
     def setting(self):
         global ip
         Ip, ok_pressed = QInputDialog.getText(self, "Введите ip", f'{ip}')
@@ -65,16 +65,6 @@ class ENTER(QMainWindow):
             with open('Ip.txt', mode="w") as file:
                 file.write(f'{Ip}')
             ip = Ip
-
-
-class send_from_enter(
-    QThread):  # класс для того чтобы не зависало приложение при вводе пароля и email так как мы подключаемся к серверу, а если не будет интернета приложение зависнет на несколько секунд
-    def __init__(self, mainwindow):
-        super().__init__()
-        self.mainwindow = mainwindow
-
-    def run(self):
-        """создается сокет"""
 
 
 

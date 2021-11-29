@@ -22,25 +22,29 @@ class Chat:
                     except socket.error:
                         pass
                     else:
-                        """дальше записываем в сообщение в истории и отпрвка других сообщений"""
-                        file1 = open('кэш.txt', mode='a')
-                        res = res.decode('utf-8')
-                        print(res)
-                        try:
-                            file1.write(res)
-                        except Exception:
-                            file1.close()
-                        else:
-                            file1.close()
-                            for user in self.user:
-                                if user != client:
-                                    print('отправил')
-                                    try:
-                                        if res != '':
-                                            user.send(res.encode('utf-8')) # если бпользователь отключился то выдаст ошибку
-                                    except Exception:
-                                        print('удален')
-                                        disconent.append(user) # добовляем в список отключившихся
+                        if res != b'':
+                            print(1)
+                            print(res)
+                            """дальше записываем в сообщение в истории и отпрвка других сообщений"""
+                            file1 = open('кэш.txt', mode='a')
+                            res = res.decode('utf-8')
+                            print(res)
+                            try:
+                                file1.write(res)
+                            except Exception:
+                                file1.close()
+                            else:
+                                file1.close()
+                                for user in self.user:
+                                    if user != client:
+                                        print('отправил')
+                                        try:
+                                            if res != '':
+                                                user.send(res.encode('utf-8')) # если бпользователь отключился то выдаст ошибку
+                                                print(len(self.user))
+                                        except Exception:
+                                            print('удален')
+                                            disconent.append(user) # добовляем в список отключившихся
             for i in disconent:
                 self.user.remove(i) # удаляем пользователь из списка
 

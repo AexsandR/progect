@@ -9,7 +9,7 @@ class chat(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi('forms/чат.ui', self)
-    """функция настройки"""
+    """метод настройки"""
     def arg(self,ip,name):
         self.ip = ip
         self.name = name
@@ -22,7 +22,7 @@ class chat(QMainWindow):
         self.LISTEn = Listen(self.sock, self.ip, mainwindow=self.plainTextEdit)  # создается класс прослушка в котрый передаем сокет, ip и self.plainTextEdit
         self.LISTEn.start()  # запускается в отдельном потоке об этом ниже
         self.pushButton.clicked.connect(self.Send)
-    """функция за себя говорит"""
+    """функция отправки"""
 
     def Send(self):
         if self.lineEdit.text() != '':
@@ -42,4 +42,4 @@ class Listen(QThread): # класс который наследуются от �
     def run(self):
         while True:
             res = self.sock.recv(104857600) # ждем сообщение не больше 100мб(в recv пишутся байты)
-            self.mainwindow.insertPlainText(res.decode('utf-8'))
+            self.mainwindow.insertPlainText(res.decode('utf-8')) # выводим сообщение

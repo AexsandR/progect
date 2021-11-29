@@ -17,14 +17,14 @@ class REG(QMainWindow):
         self.ip = ''
         self.CLass = ''
 
-    """функция для регистрации"""
+    """метод для регистрации"""
 
     def registrations(self):
         ip = self.ip
         Chat = self.CLass
-        if len(self.emai_userl.text()) < 5:  # проверка почты
+        if len(self.emai_userl.text()) < 5:  #  проверка на непустое ли полк для ввода
             self.error.setText("Ошибка в первом поле")
-        elif len(self.name_user.text()) < 5:  # проверка имени
+        elif len(self.name_user.text()) < 5:  #проверка на непустое ли полк для ввода
             self.error.setText("Ошибка во втором поле")
         else:
             """проверка паролей"""
@@ -34,7 +34,6 @@ class REG(QMainWindow):
             except Exception as error:
                 self.error.setText(str(error))
             else:
-                print(1)
                 if self.password.text() != self.password1.text():
                     self.error.setText("пароли не совпадают")
                     """проверка кода"""
@@ -59,9 +58,7 @@ class REG(QMainWindow):
                         """после того как подключились отпровляем строку с данными"""
                         stroka = 'reg ' + self.emai_userl.text() + ' ' + self.password.text() + ' ' + \
                                  self.name_user.text()
-
                         sock.send(stroka.encode('utf-8'))  # вот тут мы и отпровляем данные
-
                         res = sock.recv(1024)  # тут приходит ответ  от проверки
                         msg = res.decode('utf-8')  # переводим сообщени в строку
                         """дальше по условиям понятно"""
@@ -77,10 +74,11 @@ class REG(QMainWindow):
                         elif msg == 'имя занято':
                             self.error.setText(msg)
                         sock.close()
+    """метод для настройки"""
     def Arg(self,ip,name):
         self.CLass = name
         self.ip = ip
-    """функция для получения кода для проверки"""
+    """метод для получения кода для проверки"""
 
     def get_the_code(self):
         ip = self.ip
